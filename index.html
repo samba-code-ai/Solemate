@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SoleMate - Festival Comfort Soles</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #FF4B2B;
+      --secondary: #FF416C;
+      --accent: #FFD700;
+      --dark: #1A1A1A;
+      --light: #FFFFFF;
+      --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+    }
+
+    .announcement-bar {
+      background: var(--gradient);
+      color: white;
+      text-align: center;
+      padding: 0.5rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .announcement-content {
+      display: inline-block;
+      padding-right: 2rem;
+      animation: scroll-left 20s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: black;
+    }
+
+    .festival-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=2000&q=80') center/cover;
+      opacity: 0.7;
+      filter: brightness(0.6);
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 800px;
+      padding: 2rem;
+    }
+
+    .hero-content p {
+      margin-bottom: 2rem;
+      font-size: 1.2rem;
+    }
+
+    .glitch {
+      font-size: 5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      position: relative;
+      text-shadow: 0.05em 0 0 rgba(255,0,0,0.75),
+                  -0.025em -0.05em 0 rgba(0,255,0,0.75),
+                  0.025em 0.05em 0 rgba(0,0,255,0.75);
+      animation: glitch 500ms infinite;
+    }
+
+    .product-showcase {
+      min-height: 100vh;
+      background: white;
+      color: var(--dark);
+      padding: 4rem 2rem;
+    }
+
+    .product-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .product-gallery {
+      position: sticky;
+      top: 2rem;
+    }
+
+    .main-image {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+    }
+
+    .main-image img {
+      width: 100%;
+      display: block;
+    }
+
+    .thumbnails {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .thumbnails img {
+      width: 100%;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+    .product-details {
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .rating {
+      color: #FFD700;
+      margin-bottom: 20px;
+    }
+
+    .price {
+      font-size: 2rem;
+      color: #FF4B2B;
+      margin-bottom: 20px;
+    }
+
+    .original-price {
+      color: #999;
+      text-decoration: line-through;
+      font-size: 1.5rem;
+      margin-left: 10px;
+    }
+
+    .features {
+      margin: 20px 0;
+    }
+
+    .features p {
+      margin: 10px 0;
+      color: #666;
+    }
+
+    .size-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+
+    .size-btn {
+      padding: 10px;
+      border: 1px solid #eee;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .size-btn:hover, .size-btn.selected {
+      border-color: #FF4B2B;
+      color: #FF4B2B;
+    }
+
+    .size-btn.selected {
+      background: #FF4B2B;
+      color: white;
+    }
+
+    .buy-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: #FF4B2B;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .buy-button:hover {
+      opacity: 0.9;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1.2rem 3rem;
+      background: var(--gradient);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.2rem;
+      transition: transform 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(255, 75, 43, 0.3);
+    }
+
+    .testimonials {
+      background: linear-gradient(135deg, #1A1A1A, #2a2a2a);
+      color: var(--light);
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .testimonials h2 {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .testimonial-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: rgba(255,255,255,0.05);
+      padding: 2rem;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stars {
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .author {
+      margin-top: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    footer {
+      background: #111111;
+      color: var(--light);
+      padding: 4rem 2rem 2rem;
+      margin-top: -1px;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 3rem;
+    }
+
+    .footer-section h3, .footer-section h4 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .footer-section ul {
+      list-style: none;
+    }
+
+    .footer-section ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-section a {
+      color: var(--light);
+      text-decoration: none;
+    }
+
+    .footer-section a:hover {
+      color: var(--primary);
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+      color: #666;
+    }
+
+    .wave-divider {
+      background: #111111;
+      position: relative;
+      display: block;
+      height: 120px;
+      margin-top: -1px;
+    }
+
+    .wave-divider svg {
+      position: absolute;
+      width: 100%;
+      height: 120px;
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement-bar">
+    <div class="announcement-content">
+      🎉 Festival Season Sale - Save 55% Today! Free Shipping Worldwide! 🌍
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="festival-bg"></div>
+    <div class="particles"></div>
+    <div class="hero-content">
+      <h1 class="glitch" data-text="Dance All Night">Dance All Night</h1>
+      <p>Revolutionary comfort soles designed for festival warriors. Your feet & back will thank you.</p>
+      <a href="#product" class="cta-button" onclick="smoothScroll(event)">SAVE 55% TODAY</a>
+    </div>
+  </section>
+
+  <section class="product-showcase" id="product">
+    <div class="product-container">
+      <div class="product-gallery">
+        <div class="main-image">
+          <img src="https://ortho-pulse.de/cdn/shop/files/6_e5931edd-831c-47ca-a82e-3a05d3887479_720x.png?v=1710258398" alt="Festival Comfort Sole">
+        </div>
+        <div class="thumbnails">
+          <img src="https://ortho-pulse.de/cdn/shop/files/6_e5931edd-831c-47ca-a82e-3a05d3887479_720x.png?v=1710258398" alt="Sole View 1" onclick="this.parentElement.previousElementSibling.querySelector('img').src=this.src">
+          <img src="https://ortho-pulse.de/cdn/shop/files/6_e5931edd-831c-47ca-a82e-3a05d3887479_720x.png?v=1710258398" alt="Sole View 2" onclick="this.parentElement.previousElementSibling.querySelector('img').src=this.src">
+        </div>
+      </div>
+      
+      <div class="product-details">
+        <h1>Festival Comfort Soles</h1>
+        
+        <div class="rating">
+          ★★★★★ <span style="color: #666">4.8 | 1169 Reviews</span>
+        </div>
+
+        <div class="price">
+          €25.95 <span class="original-price">€59.95</span>
+        </div>
+
+        <div class="features">
+          <p>✓ Advanced Shock Absorption for Hours of Dancing</p>
+          <p>✓ Spine Alignment Technology</p>
+          <p>✓ Anti-Fatigue Support</p>
+          <p>✓ Moisture-Wicking Material</p>
+          <p>✓ Perfect for All-Day Festival Wear</p>
+        </div>
+
+        <div class="size-grid">
+          <button class="size-btn" onclick="selectSize(this)">EU 35-36</button>
+          <button class="size-btn" onclick="selectSize(this)">EU 37-38</button>
+          <button class="size-btn" onclick="selectSize(this)">EU 39-40</button>
+          <button class="size-btn" onclick="selectSize(this)">EU 41-42</button>
+          <button class="size-btn" onclick="selectSize(this)">EU 43-44</button>
+          <button class="size-btn" onclick="selectSize(this)">EU 45-46</button>
+        </div>
+
+        <a href="#" onclick="goToCheckout(event)" class="buy-button">Buy Now - Save 55%</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials" id="testimonials">
+    <div class="container">
+      <h2>What Festival Warriors Say</h2>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"These soles are a game-changer! Danced for 12 hours straight at Tomorrowland and my feet felt amazing!"</p>
+          <div class="author">- Emma S.</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Best festival purchase ever. No more sore feet after long days of dancing. Worth every penny!"</p>
+          <div class="author">- Mike R.</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"I'm a festival regular and these are now my must-have item. Super comfortable and great support!"</p>
+          <div class="author">- Sarah L.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wave-divider">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120">
+      <path fill="#1A1A1A" d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+    </svg>
+  </div>
+
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>SoleMate</h3>
+          <p>Dance longer. Feel better.</p>
+        </div>
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#product">Shop Now</a></li>
+            <li><a href="size-guide.html">Size Guide</a></li>
+            <li><a href="#testimonials">Reviews</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>Contact</h4>
+          <ul>
+            <li>support@solemate.com</li>
+            <li>+1 (555) 123-4567</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 SoleMate. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="lib/anime.js"></script>
+  <script>
+    function selectSize(button) {
+      // Remove selected class from all buttons
+      document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.classList.remove('selected');
+      });
+      
+      // Add selected class to clicked button
+      button.classList.add('selected');
+      
+      // Store selected size
+      localStorage.setItem('selectedSize', button.textContent);
+    }
+
+    function goToCheckout(event) {
+      event.preventDefault();
+      const selectedSize = localStorage.getItem('selectedSize');
+      
+      if (!selectedSize) {
+        alert('Please select a size first');
+        return;
+      }
+      
+      window.location.href = 'checkout.html';
+    }
+
+    function switchImage(src) {
+      document.getElementById('mainImage').src = src;
+    }
+
+    // Create particles
+    function createParticles() {
+      const particlesContainer = document.querySelector('.particles');
+      for (let i = 0; i < 50; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particlesContainer.appendChild(particle);
+        
+        const size = anime.random(2, 5);
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.background = '#fff';
+        particle.style.borderRadius = '50%';
+        particle.style.position = 'absolute';
+        particle.style.left = `${anime.random(0, 100)}%`;
+        particle.style.top = `${anime.random(0, 100)}%`;
+        
+        anime({
+          targets: particle,
+          translateY: [
+            { value: anime.random(-100, 100), duration: anime.random(1000, 3000) },
+            { value: 0, duration: anime.random(1000, 3000) }
+          ],
+          translateX: [
+            { value: anime.random(-100, 100), duration: anime.random(1000, 3000) },
+            { value: 0, duration: anime.random(1000, 3000) }
+          ],
+          opacity: 1,
+          scale: 1,
+          easing: 'easeInOutSine',
+          loop: true
+        });
+      }
+    }
+
+    // Initialize particles
+    createParticles();
+
+    // Hero animations
+    anime.timeline({
+      easing: 'easeOutExpo',
+    })
+    .add({
+      targets: '.festival-bg',
+      opacity: [0, 0.7],
+      duration: 2000,
+      easing: 'easeInOutQuad'
+    })
+    .add({
+      targets: '.hero h1',
+      opacity: [0, 1],
+      translateY: [-50, 0],
+      duration: 1500,
+      easing: 'easeOutElastic(1, .8)'
+    }, '-=1500')
+    .add({
+      targets: '.hero p',
+      opacity: [0, 1],
+      translateY: [-20, 0],
+      duration: 1000,
+      easing: 'easeOutQuart'
+    }, '-=1000')
+    .add({
+      targets: '.cta-button',
+      opacity: [0, 1],
+      translateY: [20, 0],
+      duration: 800,
+      easing: 'easeOutBack'
+    }, '-=800');
+
+    // Add this smooth scroll function to your script section
+    function smoothScroll(e) {
+      e.preventDefault();
+      const targetId = e.target.getAttribute('href').substring(1);
+      const targetElement = document.getElementById(targetId);
+      targetElement.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+    // Add the event listener to the button
+    document.querySelector('.hero .cta-button').addEventListener('click', smoothScroll);
+  </script>
+</body>
+</html> 

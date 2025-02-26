@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout - SoleMate</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #FF4B2B;
+      --secondary: #FF416C;
+      --dark: #1A1A1A;
+      --light: #FFFFFF;
+      --gray: #F8F9FA;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--gray);
+      color: var(--dark);
+      line-height: 1.5;
+    }
+
+    .checkout-header {
+      background: white;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .checkout-header a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.5rem;
+    }
+
+    .checkout-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .checkout-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .step {
+      flex: 1;
+      text-align: center;
+      padding: 1rem;
+      background: white;
+      border-radius: 8px;
+      margin: 0 0.5rem;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .step.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    .checkout-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .product-summary {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .product-image {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .price-summary {
+      margin-top: 1rem;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 0.5rem 0;
+    }
+
+    .total-row {
+      font-size: 1.2rem;
+      font-weight: 600;
+      padding-top: 1rem;
+      border-top: 2px solid #eee;
+      margin-top: 1rem;
+    }
+
+    .shipping-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-group input {
+      padding: 0.8rem;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    .payment-options {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .payment-option {
+      display: flex;
+      align-items: center;
+      padding: 1rem;
+      border: 2px solid #eee;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .payment-option:hover {
+      border-color: var(--primary);
+    }
+
+    .payment-option.selected {
+      border-color: var(--primary);
+      background: rgba(255,75,43,0.05);
+    }
+
+    .payment-option img {
+      height: 24px;
+      margin-right: 1rem;
+    }
+
+    .checkout-button {
+      background: var(--primary);
+      color: white;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: transform 0.3s;
+    }
+
+    .checkout-button:hover {
+      transform: translateY(-2px);
+    }
+
+    .secure-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: #666;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+  </style>
+</head>
+<body>
+  <header class="checkout-header">
+    <a href="index.html">
+      <svg class="logo" viewBox="0 0 100 250" width="30" height="30">
+        <path d="M20,50 C20,30 40,20 50,20 C60,20 80,30 80,50 C80,120 80,200 50,230 C20,200 20,120 20,50 Z" 
+              fill="none" 
+              stroke="currentColor" 
+              stroke-width="2"/>
+      </svg>
+      <span>SoleMate</span>
+    </a>
+  </header>
+
+  <div class="checkout-container">
+    <div class="checkout-steps">
+      <div class="step active">Order Summary</div>
+      <div class="step">Payment</div>
+      <div class="step">Confirmation</div>
+    </div>
+
+    <div class="checkout-card">
+      <div class="product-summary">
+        <img src="https://ortho-pulse.de/cdn/shop/files/6_e5931edd-831c-47ca-a82e-3a05d3887479_720x.png?v=1710258398" alt="Festival Comfort Sole" class="product-image">
+        <div class="product-info">
+          <h3>Festival Comfort Soles</h3>
+          <p id="size-display"></p>
+          <p>€25.95</p>
+        </div>
+      </div>
+
+      <div class="price-summary">
+        <div class="price-row">
+          <span>Subtotal</span>
+          <span>€59.95</span>
+        </div>
+        <div class="price-row">
+          <span>Discount</span>
+          <span>-€34.00</span>
+        </div>
+        <div class="price-row">
+          <span>Shipping</span>
+          <span>FREE</span>
+        </div>
+        <div class="price-row total-row">
+          <span>Total</span>
+          <span>€25.95</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="checkout-card">
+      <h3>Shipping Information</h3>
+      <form id="shippingForm" class="shipping-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" required name="firstName">
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" required name="lastName">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" required name="email">
+        </div>
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" required name="address">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" required name="city">
+          </div>
+          <div class="form-group">
+            <label>Postal Code</label>
+            <input type="text" required name="postalCode">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="checkout-card">
+      <h3>Select Payment Method</h3>
+      <div class="payment-options">
+        <div class="payment-option selected" onclick="selectPayment(this)">
+          <img src="https://www.mollie.com/external/icons/payment-methods/ideal.svg" alt="iDEAL">
+          <span>iDEAL</span>
+        </div>
+        <div class="payment-option" onclick="selectPayment(this)">
+          <img src="https://www.mollie.com/external/icons/payment-methods/creditcard.svg" alt="Credit Card">
+          <span>Credit Card</span>
+        </div>
+        <div class="payment-option" onclick="selectPayment(this)">
+          <img src="https://www.mollie.com/external/icons/payment-methods/paypal.svg" alt="PayPal">
+          <span>PayPal</span>
+        </div>
+      </div>
+
+      <button class="checkout-button">Complete Purchase</button>
+
+      <div class="secure-badge">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 6c1.4 0 2.5 1.1 2.5 2.5V13c.6 0 1 .4 1 1v4c0 .6-.4 1-1 1h-5c-.6 0-1-.4-1-1v-4c0-.6.4-1 1-1V9.5C9.5 8.1 10.6 7 12 7zm0 2c-.3 0-.5.2-.5.5V13h1V9.5c0-.3-.2-.5-.5-.5z"/>
+        </svg>
+        Secure Checkout
+      </div>
+    </div>
+  </div>
+
+  <div id="soldOutModal" class="modal">
+    <div class="modal-content">
+      <h2>Currently Out of Stock</h2>
+      <p>We're sorry, but this size is currently out of stock. We'll notify you by email as soon as it's available!</p>
+      <button onclick="closeModal()" class="checkout-button">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function selectPayment(element) {
+      document.querySelectorAll('.payment-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+      element.classList.add('selected');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const selectedSize = localStorage.getItem('selectedSize');
+      if (selectedSize) {
+        document.getElementById('size-display').textContent = `Size: ${selectedSize}`;
+      }
+    });
+
+    document.querySelector('.checkout-button').addEventListener('click', (e) => {
+      e.preventDefault();
+      const form = document.getElementById('shippingForm');
+      if (form.checkValidity()) {
+        const formData = new FormData(form);
+        localStorage.setItem('customerData', JSON.stringify(Object.fromEntries(formData)));
+        document.getElementById('soldOutModal').style.display = 'flex';
+      } else {
+        form.reportValidity();
+      }
+    });
+
+    function closeModal() {
+      document.getElementById('soldOutModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html> 
