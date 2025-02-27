@@ -229,6 +229,24 @@
       max-width: 400px;
       width: 90%;
     }
+
+    .language-switcher {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .language-switcher select {
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(0,0,0,0.1);
+      background: white;
+      color: var(--dark);
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
   </style>
 </head>
 <body>
@@ -243,6 +261,13 @@
       <span>SoleMate</span>
     </a>
   </header>
+
+  <div class="language-switcher">
+    <select onchange="switchLanguage(this.value)">
+      <option value="en">🇬🇧 EN</option>
+      <option value="nl">🇳🇱 NL</option>
+    </select>
+  </div>
 
   <div class="checkout-container">
     <div class="checkout-steps">
@@ -381,6 +406,116 @@
     function closeModal() {
       document.getElementById('soldOutModal').style.display = 'none';
     }
+
+    const checkoutTranslations = {
+      en: {
+        title: "Checkout",
+        shipping: "Shipping Information",
+        name: "Full Name",
+        email: "Email Address",
+        address: "Shipping Address",
+        city: "City",
+        country: "Country",
+        zip: "Postal Code",
+        product: "Festival Comfort Soles",
+        complete: "Complete Purchase",
+        steps: ["Order Summary", "Payment", "Confirmation"],
+        subtotal: "Subtotal",
+        discount: "Discount",
+        shipping: "Shipping",
+        total: "Total",
+        free: "FREE",
+        secure: "Secure Checkout",
+        payment: "Select Payment Method"
+      },
+      nl: {
+        title: "Afrekenen",
+        shipping: "Verzendgegevens",
+        name: "Volledige Naam",
+        email: "E-mailadres",
+        address: "Verzendadres",
+        city: "Stad",
+        country: "Land",
+        zip: "Postcode",
+        product: "Festival Comfort Zolen",
+        complete: "Bestelling Afronden",
+        steps: ["Bestelling", "Betaling", "Bevestiging"],
+        subtotal: "Subtotaal",
+        discount: "Korting",
+        shipping: "Verzending",
+        total: "Totaal",
+        free: "GRATIS",
+        secure: "Veilig Afrekenen",
+        payment: "Kies Betaalmethode",
+        firstName: "Voornaam",
+        lastName: "Achternaam",
+        outOfStock: "Momenteel niet op voorraad",
+        outOfStockMessage: "Sorry, maar deze maat is momenteel niet op voorraad. We sturen je een e-mail zodra het weer beschikbaar is!",
+        close: "Sluiten",
+        size: "Maat"
+      }
+    };
+
+    function switchLanguage(lang) {
+      // Store language preference
+      localStorage.setItem('preferredLanguage', lang);
+      
+      // Update text content
+      const content = checkoutTranslations[lang];
+      
+      // Update page title
+      document.title = content.title + " - SoleMate";
+      
+      // Update steps
+      const steps = document.querySelectorAll('.step');
+      content.steps.forEach((step, index) => {
+        steps[index].textContent = step;
+      });
+      
+      // Update order summary
+      const priceRows = document.querySelectorAll('.price-row');
+      priceRows[0].firstElementChild.textContent = content.subtotal;
+      priceRows[1].firstElementChild.textContent = content.discount;
+      priceRows[2].firstElementChild.textContent = content.shipping;
+      priceRows[2].lastElementChild.textContent = content.free;
+      priceRows[3].firstElementChild.textContent = content.total;
+      
+      // Update shipping information section
+      document.querySelectorAll('.checkout-card h3').forEach(h3 => {
+        if (h3.textContent.includes('Shipping')) {
+          h3.textContent = content.shipping;
+        } else if (h3.textContent.includes('Payment')) {
+          h3.textContent = content.payment;
+        }
+      });
+      
+      // Update form labels
+      const labels = document.querySelectorAll('.form-group label');
+      labels[0].textContent = content.firstName;
+      labels[1].textContent = content.lastName;
+      labels[2].textContent = content.email;
+      labels[3].textContent = content.address;
+      labels[4].textContent = content.city;
+      labels[5].textContent = content.zip;
+      
+      // Update product title
+      document.querySelector('.product-info h3').textContent = content.product;
+      
+      // Update secure badge
+      document.querySelector('.secure-badge').lastElementChild.textContent = content.secure;
+      
+      // Update button
+      document.querySelector('.checkout-button').textContent = content.complete;
+    }
+
+    // On page load, check for preferred language
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('preferredLanguage');
+      if (savedLang) {
+        document.querySelector('.language-switcher select').value = savedLang;
+        switchLanguage(savedLang);
+      }
+    });
   </script>
 </body>
 </html> 
