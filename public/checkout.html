@@ -370,9 +370,9 @@
 
   <div id="soldOutModal" class="modal">
     <div class="modal-content">
-      <h2>Currently Out of Stock</h2>
-      <p>We're sorry, but this size is currently out of stock. We'll notify you by email as soon as it's available!</p>
-      <button onclick="closeModal()" class="checkout-button">Close</button>
+      <h2 id="modalTitle">Currently Out of Stock</h2>
+      <p id="modalMessage">We're sorry, but this size is currently out of stock. We'll notify you by email as soon as it's available!</p>
+      <button onclick="closeModal()" class="checkout-button" id="modalClose">Close</button>
     </div>
   </div>
 
@@ -426,7 +426,10 @@
         total: "Total",
         free: "FREE",
         secure: "Secure Checkout",
-        payment: "Select Payment Method"
+        payment: "Select Payment Method",
+        outOfStock: "Currently Out of Stock",
+        outOfStockMessage: "We're sorry, but this size is currently out of stock. We'll notify you by email as soon as it's available!",
+        close: "Close"
       },
       nl: {
         title: "Afrekenen",
@@ -450,9 +453,8 @@
         firstName: "Voornaam",
         lastName: "Achternaam",
         outOfStock: "Momenteel niet op voorraad",
-        outOfStockMessage: "Sorry, maar deze maat is momenteel niet op voorraad. We sturen je een e-mail zodra het weer beschikbaar is!",
-        close: "Sluiten",
-        size: "Maat"
+        outOfStockMessage: "Sorry, deze maat is momenteel niet op voorraad. We sturen je een e-mail zodra het weer beschikbaar is!",
+        close: "Sluiten"
       }
     };
 
@@ -506,6 +508,11 @@
       
       // Update button
       document.querySelector('.checkout-button').textContent = content.complete;
+      
+      // Update modal text
+      document.getElementById('modalTitle').textContent = content.outOfStock;
+      document.getElementById('modalMessage').textContent = content.outOfStockMessage;
+      document.getElementById('modalClose').textContent = content.close;
     }
 
     // On page load, check for preferred language
@@ -514,6 +521,12 @@
       if (savedLang) {
         document.querySelector('.language-switcher select').value = savedLang;
         switchLanguage(savedLang);
+        
+        // Also update the modal content immediately
+        const content = checkoutTranslations[savedLang];
+        document.getElementById('modalTitle').textContent = content.outOfStock;
+        document.getElementById('modalMessage').textContent = content.outOfStockMessage;
+        document.getElementById('modalClose').textContent = content.close;
       }
     });
   </script>
