@@ -465,11 +465,10 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 0.8rem;
         margin: 1.5rem 0;
-        padding: 0 0.5rem;
       }
 
       .size-btn {
-        padding: 1rem;
+        padding: 1.2rem;
         border: none;
         background: #f8f8f8;
         border-radius: 12px;
@@ -485,41 +484,30 @@
         box-shadow: 0 2px 8px rgba(255,75,43,0.3);
       }
 
-      .buy-button-container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 1rem;
-        background: rgba(255,255,255,0.95);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        box-shadow: 0 -1px 10px rgba(0,0,0,0.1);
-        z-index: 1000;
-      }
-
       .buy-button {
         display: block;
         width: 100%;
-        padding: 1rem;
+        padding: 1.2rem;
         background: #FF4B2B;
         color: white;
         border: none;
-        border-radius: 8px;
-        font-size: 1rem;
+        border-radius: 12px;
+        font-size: 1.1rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+        margin-top: 1.5rem;
+        box-shadow: 0 4px 12px rgba(255,75,43,0.2);
+        transition: all 0.3s ease;
+      }
+
+      .buy-button:active {
+        transform: translateY(1px);
         box-shadow: 0 2px 8px rgba(255,75,43,0.2);
       }
 
       .testimonials {
-        padding-bottom: 120px;
-      }
-
-      /* Add margin to the last element before the fixed button */
-      .product-details > *:last-child {
-        margin-bottom: 100px;
+        margin-top: 2rem;
       }
     }
 
@@ -541,8 +529,13 @@
       }
 
       .size-btn {
-        padding: 0.8rem;
+        padding: 1rem;
         font-size: 0.9rem;
+      }
+
+      .buy-button {
+        padding: 1rem;
+        font-size: 1rem;
       }
     }
   </style>
@@ -610,13 +603,11 @@
           <button class="size-btn" onclick="selectSize(this)">EU 43-44</button>
           <button class="size-btn" onclick="selectSize(this)">EU 45-46</button>
         </div>
+
+        <button onclick="goToCheckout(event)" class="buy-button">Buy Now - Save 55%</button>
       </div>
     </div>
   </section>
-
-  <div class="buy-button-container">
-    <button onclick="goToCheckout(event)" class="buy-button">Buy Now - Save 55%</button>
-  </div>
 
   <section class="testimonials" id="testimonials">
     <div class="container">
